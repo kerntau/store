@@ -159,7 +159,7 @@ function ProductCard({ product }: { product: Product }) {
               库存：
               {product.availableStock >= 0 ? product.availableStock : '充足'}
             </span>
-            <span>已售：--</span>
+            <span>已售：{product.soldCount}</span>
           </Box>
         </Stack>
       </CardContent>

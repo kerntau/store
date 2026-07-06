@@ -35,6 +35,7 @@ type Product struct {
 	BuyMin            int       `json:"buyMin"`
 	BuyMax            int       `json:"buyMax"`
 	AvailableStock    int       `json:"availableStock"`
+	SoldCount         int64     `json:"soldCount"`
 	CreatedAt         time.Time `json:"createdAt"`
 	UpdatedAt         time.Time `json:"updatedAt"`
 }

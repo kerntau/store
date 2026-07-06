@@ -14,11 +14,21 @@ func (a *App) publicProducts(w http.ResponseWriter, r *http.Request) {
 		select p.id,p.category_id,p.name,p.description,p.cover,p.price_cents,p.status,
 		       p.delivery_mode,p.auto_delivery_order,p.manual_text,p.query_password_mode,
 		       p.stock_visible,p.buy_min,p.buy_max,p.created_at,p.updated_at,
-		       count(c.id) filter (where c.status='available') as available_stock
+		       coalesce(stock.available_stock,0),coalesce(sales.sold_count,0)
 		from products p
-		left join product_cards c on c.product_id=p.id
+		left join (
+			select product_id,count(*) as available_stock
+			from product_cards
+			where status='available'
+			group by product_id
+		) stock on stock.product_id=p.id
+		left join (
+			select product_id,coalesce(sum(quantity),0) as sold_count
+			from orders
+			where payment_status='paid'
+			group by product_id
+		) sales on sales.product_id=p.id
 		where p.status='enabled'
-		group by p.id
 		order by p.id desc`)
 	if err != nil {
 		fail(w, http.StatusInternalServerError, "load products failed")
@@ -29,7 +39,7 @@ func (a *App) publicProducts(w http.ResponseWriter, r *http.Request) {
 	products := []Product{}
 	for rows.Next() {
 		var p Product
-		if err := rows.Scan(&p.ID, &p.CategoryID, &p.Name, &p.Description, &p.Cover, &p.PriceCents, &p.Status, &p.DeliveryMode, &p.AutoDeliveryOrder, &p.ManualText, &p.QueryPasswordMode, &p.StockVisible, &p.BuyMin, &p.BuyMax, &p.CreatedAt, &p.UpdatedAt, &p.AvailableStock); err != nil {
+		if err := rows.Scan(&p.ID, &p.CategoryID, &p.Name, &p.Description, &p.Cover, &p.PriceCents, &p.Status, &p.DeliveryMode, &p.AutoDeliveryOrder, &p.ManualText, &p.QueryPasswordMode, &p.StockVisible, &p.BuyMin, &p.BuyMax, &p.CreatedAt, &p.UpdatedAt, &p.AvailableStock, &p.SoldCount); err != nil {
 			fail(w, http.StatusInternalServerError, "scan products failed")
 			return
 		}
@@ -37,6 +47,10 @@ func (a *App) publicProducts(w http.ResponseWriter, r *http.Request) {
 			p.AvailableStock = -1
 		}
 		products = append(products, p)
+	}
+	if err := rows.Err(); err != nil {
+		fail(w, http.StatusInternalServerError, "scan products failed")
+		return
 	}
 	respond(w, http.StatusOK, "success", products)
 }

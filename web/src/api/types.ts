@@ -20,6 +20,7 @@ export type Product = {
   buyMin: number
   buyMax: number
   availableStock: number
+  soldCount: number
 }
 
 export type Order = {

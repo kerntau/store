@@ -149,7 +149,7 @@ export default function ProductPage() {
                     </span>
                     <span className="badge-soft badge-soft-primary">
                       <LocalOfferOutlinedIcon className="badge-icon" />
-                      已售 --
+                      已售 {product.soldCount}
                     </span>
                     <span
                       className={`badge-soft ${

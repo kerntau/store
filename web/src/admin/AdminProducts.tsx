@@ -186,6 +186,11 @@ export default function AdminProducts() {
         width: 110,
       },
       {
+        field: 'soldCount',
+        headerName: '销量',
+        width: 110,
+      },
+      {
         field: 'status',
         headerName: '状态',
         width: 110,
