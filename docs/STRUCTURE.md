@@ -1,6 +1,6 @@
 # Project Structure
 
-`modern-faka` is the active project. The old PHP source is not part of this repository.
+`store` is the active project root. The old PHP source is kept outside this repository as reference material.
 
 ## Top Level
 
