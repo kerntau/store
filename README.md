@@ -26,6 +26,9 @@ Core flow:
 - `api/` Go backend
 - `web/` React frontend and admin
 - `deploy/` PostgreSQL migration and environment examples
+- `docs/` project structure and operation notes
+
+See `docs/STRUCTURE.md` for the directory map.
 
 ## Local Prerequisites
 

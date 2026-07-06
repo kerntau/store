@@ -22,12 +22,14 @@ import ListItemText from '@mui/material/ListItemText'
 import Stack from '@mui/material/Stack'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
+import { Suspense, lazy } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
-import AdminCards from './AdminCards'
-import AdminDashboard from './AdminDashboard'
-import AdminLogin from './AdminLogin'
-import AdminOrders from './AdminOrders'
-import AdminProducts from './AdminProducts'
+
+const AdminCards = lazy(() => import('./AdminCards'))
+const AdminDashboard = lazy(() => import('./AdminDashboard'))
+const AdminLogin = lazy(() => import('./AdminLogin'))
+const AdminOrders = lazy(() => import('./AdminOrders'))
+const AdminProducts = lazy(() => import('./AdminProducts'))
 
 const drawerWidth = 250
 
@@ -70,7 +72,11 @@ export default function AdminApp() {
   }
 
   if (location.pathname === '/admin/login') {
-    return <AdminLogin />
+    return (
+      <Suspense fallback={<AdminRouteFallback />}>
+        <AdminLogin />
+      </Suspense>
+    )
   }
 
   return (
@@ -222,13 +228,15 @@ export default function AdminApp() {
           pb: { xs: 11, md: 4 },
         }}
       >
-        <Routes>
-          <Route path="/" element={<AdminDashboard />} />
-          <Route path="/products" element={<AdminProducts />} />
-          <Route path="/cards" element={<AdminCards />} />
-          <Route path="/orders" element={<AdminOrders />} />
-          <Route path="*" element={<Navigate to="/admin" replace />} />
-        </Routes>
+        <Suspense fallback={<AdminRouteFallback />}>
+          <Routes>
+            <Route path="/" element={<AdminDashboard />} />
+            <Route path="/products" element={<AdminProducts />} />
+            <Route path="/cards" element={<AdminCards />} />
+            <Route path="/orders" element={<AdminOrders />} />
+            <Route path="*" element={<Navigate to="/admin" replace />} />
+          </Routes>
+        </Suspense>
       </Box>
 
       <BottomNavigation
@@ -253,6 +261,14 @@ export default function AdminApp() {
           />
         ))}
       </BottomNavigation>
+    </Box>
+  )
+}
+
+function AdminRouteFallback() {
+  return (
+    <Box sx={{ display: 'grid', minHeight: 360, placeItems: 'center' }}>
+      <Typography color="text.secondary">加载中...</Typography>
     </Box>
   )
 }

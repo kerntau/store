@@ -1,4 +1,6 @@
 .tools/
+.logs/
+.cache/
 
 api/server.exe
 api/modern-faka-api
@@ -8,4 +10,7 @@ web/dist/
 web/.vite/
 
 .env
+.env.*
+!.env.example
 *.log
+*.zip
