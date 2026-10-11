@@ -8,7 +8,7 @@
 [![Go](https://img.shields.io/badge/Go-1.23%2B-00ADD8?style=for-the-badge&logo=go&logoColor=white)](https://go.dev)
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=111111)](https://react.dev)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Ready-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org)
-[![License](https://img.shields.io/badge/License-See%20LICENSE-555555?style=for-the-badge)](LICENSE)
+![License](https://img.shields.io/badge/License-See%20repository-555555?style=for-the-badge)
 
 </div>
 
@@ -91,4 +91,4 @@ docker compose up -d --build
 
 ## 09. LICENSE // 许可证
 
-以仓库中的 LICENSE 文件为准。
+仓库当前未附 LICENSE 文件，分发前请补充许可证并同步更新本节。
